@@ -1,0 +1,6 @@
+.env
+__pycache__
+.venv
+agentic_rag
+agentic_rag.ipynb
+bin/__pycache__
