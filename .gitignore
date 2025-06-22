@@ -4,3 +4,5 @@ __pycache__
 agentic_rag
 agentic_rag.ipynb
 bin/__pycache__
+.DS_Store
+main.py

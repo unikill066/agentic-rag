@@ -16,7 +16,8 @@ from langchain_core.messages import  HumanMessage
 from langchain_core.messages import BaseMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
-from langchain_core.pydantic_v1 import BaseModel, Field
+from langchain_core.pydantic_v1 import Field
+from pydantic import BaseModel
 from langgraph.graph.message import add_messages
 from langgraph.prebuilt import tools_condition
 from langchain_community.vectorstores import Chroma
@@ -53,7 +54,7 @@ retriever_tool = create_retriever_tool(
     retriever, 
     "retriever",
     """You are a specialized assistant and you have to search and return information about Nikhil from the documents
-    Use the `retriever` tool **only** when the query explicitly related to Nikhil or questions about Nikhil.
+    Use the `retriever` tool **only** when the query explicitly related to Nikhil or queries about Nikhil.
     For all other queries, respond directly without using this custom `retriever` tool.
     And, for simple queries like 'hi', 'hello', or 'how are you', provide a short humanable response.
     """
@@ -69,7 +70,7 @@ class router(BaseModel):
     route: str=Field(description="Route to 'yes' or 'no' based on relevance of query")
 
     
-def rag_agent(state: AgentState, query: str) -> AgentState:
+def rag_agent(state: AgentState) -> AgentState:
     logger.info("\n - - - RAG Agent Invocation - - -\n")
     messages = state["messages"]
 
@@ -91,7 +92,7 @@ Here is the query: {query}
         logger.info(response)
         return {"messages": [response]}
 
-def document_quality(state: AgentState) -> Literal["Rewrite", "Generator"]:
+def document_quality(state: AgentState) -> Literal["rewrite", "generator"]:
     logger.info("\n - - - Document Quality Invocation - - -\n")
     messages = state["messages"]
     last_message = messages[-1]
@@ -112,10 +113,10 @@ def document_quality(state: AgentState) -> Literal["Rewrite", "Generator"]:
 
     if route_to == "yes":
         logger.info("Document is relevant to the query")
-        return "Generator"
+        return "generator"
     else:
         logger.info("Document is not relevant to the query")
-        return "Rewrite"
+        return "rewrite"
 
 def generator(state: AgentState) -> AgentState:
     logger.info("\n - - - Generator Invocation - - -\n")
@@ -125,7 +126,7 @@ def generator(state: AgentState) -> AgentState:
     document = last_message.content
     prompt = hub.pull("rlm/rag-prompt")
     rag_chain = prompt | llm
-    response = rag_chain.invoke({"context": document, "query": query})
+    response = rag_chain.invoke({"context": document, "question": query})
     logger.info("\n - - - Generator Response - - -\n")
     logger.info(response)
     return {"messages": [response]}
@@ -138,7 +139,7 @@ def rewrite(state: AgentState) -> AgentState:
         content=f"""
         Below are the query and, digest it and try to reason about the underlying semantic meaning.
         Here is the initial query: {query}
-        Come up with an improved question or an alternate question that is more relevant to the query.
+        Come up with an improved query or an alternate query that is more relevant to the query.
         """,
     )]
     response = llm.invoke(message)
@@ -159,7 +160,7 @@ def rewrite(state: AgentState) -> AgentState:
 # graph.add_edge("generator", END)
 # app = graph.compile()
 
-def build_rag_state_graph(rag_agent, retriever_node, generator, rewrite):
+def build_rag_state_graph():
     logger.info("\n - - - Building RAG State Graph - - -\n")
     graph = StateGraph(AgentState)  # stategraph definition
     # nodes
@@ -183,6 +184,6 @@ def save_mermaid_graph(output_path: str = "./graph.png") -> None:
     with open(output_path, "wb") as f:
         f.write(png_bytes)
 
-app = build_rag_state_graph(rag_agent, retriever_node, generator, rewrite)
+app = build_rag_state_graph()
 save_mermaid_graph()
 logger.info("\n - - - Graph saved to PNG - - -\n")
