@@ -9,12 +9,12 @@ An **agentic Retrieval-Augmented Generation (RAG)** chatbot powered by [LangGrap
 stateDiagram-v2
     [*] --> rag_agent
     rag_agent --> retriever_node: tools
-    rag_agent --> [*]
-    retriever_node --> generator: generator
-    retriever_node --> rewrite: rewrite
+    rag_agent --> [*]: direct answer
+    retriever_node --> generator: relevant docs
+    retriever_node --> rewrite: no docs found
     generator --> [*]
-    rewrite --> rag_agent
-    
+    rewrite --> rag_agent: retry with new query
+
 ## Features
 
 * **Agentic RAG pipeline**
