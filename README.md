@@ -6,26 +6,29 @@
 
 An **agentic Retrieval-Augmented Generation (RAG)** chatbot powered by [LangGraph](https://github.com/unikill066/langgraph), OpenAI’s GPT-3.5-turbo, and a Chroma vector store. It allows you to ask questions about **Nikhil Nageshwar Inturi’s** background, publications, projects, and qualifications, and get grounded answers sourced from indexed PDFs and other documents.
 
-graph TD
-    Start([Start]) --> Agent[RAG Agent]
-    Agent --> Tools{Tools Needed?}
-    Tools -->|Yes| Retriever[Retriever Node]
-    Tools -->|No| End([End])
-    Retriever --> Quality{Document Quality?}
-    Quality -->|Good| Generator[Generator]
-    Quality -->|Poor| Rewrite[Rewrite Query]
-    Generator --> End
-    Rewrite --> Agent
+```mermaid
+flowchart TD
+    A[__start__] --> B[rag_agent]
+    B --> C{tools_condition}
+    C -->|tools| D[retriever_node]
+    C -->|END| E[__end__]
+    D --> F{document_quality}
+    F -->|generator| G[generator]
+    F -->|rewrite| H[rewrite]
+    G --> E
+    H --> B
     
-    %% Colors
-    Start --> Agent
-    classDef startEnd fill:#ff9999
-    classDef process fill:#99ccff
-    classDef decision fill:#ffcc99
+    %% Styling
+    classDef startEnd fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef agent fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef decision fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef tool fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
     
-    class Start,End startEnd
-    class Agent,Retriever,Generator,Rewrite process
-    class Tools,Quality decision
+    class A,E startEnd
+    class B,G,H agent
+    class C,F decision
+    class D tool
+```
 
 ## Features
 
