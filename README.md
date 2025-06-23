@@ -132,7 +132,7 @@ Open your browser at `http://localhost:8501` and start asking questions!
 └── README.md
 ```
 
-## 📜 License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
 
