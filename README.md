@@ -110,7 +110,7 @@ This will split and embed your PDFs into `./chroma_db`.
 ### 5. Run the Streamlit app
 
 ```bash
-streamlit run streamlit_app.py
+streamlit run streamlit_app-local.py
 ```
 
 Open your browser at `http://localhost:8501` and start asking questions!
