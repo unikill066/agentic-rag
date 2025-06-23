@@ -6,42 +6,15 @@
 
 An **agentic Retrieval-Augmented Generation (RAG)** chatbot powered by [LangGraph](https://github.com/unikill066/langgraph), OpenAI’s GPT-3.5-turbo, and a Chroma vector store. It allows you to ask questions about **Nikhil Nageshwar Inturi’s** background, publications, projects, and qualifications, and get grounded answers sourced from indexed PDFs and other documents.
 
-flowchart LR
-    %% Define styles
-    classDef agent fill:#E8DFF5,stroke:#A377B0,stroke-width:2px;
-    classDef tool  fill:#F5F2E8,stroke:#B09A77,stroke-width:2px;
-    classDef process fill:#E8F5E8,stroke:#77B09A,stroke-width:2px;
-    classDef end    fill:#F8D8D8,stroke:#B07777,stroke-width:2px;
+stateDiagram-v2
+    [*] --> rag_agent
+    rag_agent --> retriever_node: tools
+    rag_agent --> [*]
+    retriever_node --> generator: generator
+    retriever_node --> rewrite: rewrite
+    generator --> [*]
+    rewrite --> rag_agent
     
-    %% Nodes
-    Start([Start])
-    subgraph Agent["RAG Agent"]
-      direction TB
-      RA[/rag_agent/]
-    end
-    subgraph Tools["⧉ Tools"]
-      direction TB
-      RN[Retriever Node]
-      RW[Rewrite Module]
-    end
-    Gen([Generator])
-    End([End])
-
-    %% Flows
-    Start --> RA
-    RA -->|“fetch docs”| RN
-    RN --> Gen
-    Gen --> End
-    RN -.->|“no hits?”| End
-    RA -->|“improve query”| RW
-    RW -->|“new query”| RA
-
-    %% Styling
-    class RA agent;
-    class RN, RW tool;
-    class Gen process;
-    class Start,End end;
-
 ## Features
 
 * **Agentic RAG pipeline**
