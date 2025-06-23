@@ -1,6 +1,5 @@
 # Agentic RAG Chatbot
 ![Python](https://img.shields.io/badge/python-3.13%2B-blue?logo=python)
-![License](https://github.com/unikill066/agentic-rag/blob/main/LICENSE)
 
 ![Agentic RAG Chatbot](misc/AgenticRAGChatbot.gif)
 
