@@ -1,5 +1,7 @@
 # Agentic RAG Chatbot
 ![Python](https://img.shields.io/badge/python-3.13%2B-blue?logo=python)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+![OpenAI API](https://img.shields.io/badge/Powered_by-OpenAI_API-orange)
 
 ![Agentic RAG Chatbot](misc/AgenticRAGChatbot.gif)
 
@@ -28,6 +30,19 @@ flowchart TD
     class C,F decision
     class D tool
 ```
+
+### Difference b/w [Traditional RAG](https://nikhilrag-ntbaxj9puvp37yaqvkqsiu.streamlit.app/) & Agentic RAG
+| Feature                            | Traditional RAG                                                                                   | Agentic RAG                                                                                           |
+|------------------------------------|---------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| **Overview**                       | Retriever → Generator; static pipeline grounded in retrieved context.                              | RAG + intelligent agent; dynamic decision-making, planning & tool use.                                |
+| **Architecture**                   | Fixed sequence: query → embedding → retrieve top-k → prompt → LLM answer.                         | Loop of “Thought → Tool → Observation”; agent decides when/where/how to retrieve or call tools.       |
+| **Workflow**                       | One-shot: embed & retrieve → augment prompt → generate answer.                                     | Iterative: plan → retrieve → evaluate → (re-retrieve…) → generate → (optional verify).                |
+| **Memory & Reasoning**             | No built-in memory; reasoning is one-pass inside the final LLM call.                              | Maintains state across steps; chain-of-thought exposes planning, self-correction & long-term memory.  |
+| **Use Cases**                      | Simple QA on a single knowledge source.                                                           | Complex, multi-step tasks; multi-source routing; tool-augmented actions (e.g. charts, APIs).         |
+| **Trade-offs**                     | Simpler, faster, cheaper, easier to debug; limited adaptability.                                  | More flexible & accurate; handles ambiguity; higher latency, cost & engineering complexity.          |
+| **LangChain       | Chains: static RetrievalQA/ConversationRetrieval.                                                 | Agents: wrap retrievers as tools (LangChain Agents)      |
+
+> Note: Check out the RAG implementation in this repository: [NikhilRAG](https://github.com/unikill066/NikhilRAG)
 
 ## Features
 
