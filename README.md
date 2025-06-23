@@ -7,36 +7,25 @@
 
 An **agentic Retrieval-Augmented Generation (RAG)** chatbot powered by [LangGraph](https://github.com/unikill066/langgraph), OpenAI’s GPT-3.5-turbo, and a Chroma vector store. It allows you to ask questions about **Nikhil Nageshwar Inturi’s** background, publications, projects, and qualifications, and get grounded answers sourced from indexed PDFs and other documents.
 
-```mermaid
-flowchart TD
-    A[__start__] --> B[rag_agent]
-    B --> C{tools_condition}
-    C -->|tools| D[retriever_node]
-    C -->|END| E[__end__]
-    D --> F{document_quality}
-    F -->|generator| G[generator]
-    F -->|rewrite| H[rewrite]
-    G --> E
-    H --> B
-    
-    %% Styling
-    classDef startEnd fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    classDef agent fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
-    classDef decision fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    classDef tool fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
-    
-    class A,E startEnd
-    class B,G,H agent
-    class C,F decision
-    class D tool
-```
-
 The app supports one upload at a time; progress bars updates live. More on the steps that go into the pipeline can be found here: <p align="left">
   <a href="docs/agentic-rag_wiki.md">
     <img src="https://img.shields.io/badge/Step–by–Step-Docs-blue?style=for-the-badge" alt="Step-by-Step Docs">
   </a>
 </p>
 
+
+```mermaid
+graph TD
+    A[Start] --> B[RAG Agent]
+    B --> C{tools_condition}
+    C -->|tools| D[Retriever Node]
+    C -->|END| E[End]
+    D --> F{document_quality}
+    F -->|generator| G[Generator]
+    F -->|rewrite| H[Rewrite]
+    G --> E
+    H --> B
+```
 
 ### Difference b/w [Traditional RAG](https://nikhilrag-ntbaxj9puvp37yaqvkqsiu.streamlit.app/) & Agentic RAG
 | Feature                            | Traditional RAG                                                                                   | Agentic RAG                                                                                           |
