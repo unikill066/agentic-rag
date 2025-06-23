@@ -6,7 +6,7 @@ Create a langgraph graph and compile it for invocation
 """
 
 # imports
-import warnings, os, logging, sys
+import streamlit as st, warnings, os, logging, sys
 from constants import COLLECTION_NAME
 from dotenv import load_dotenv
 warnings.filterwarnings("ignore")
