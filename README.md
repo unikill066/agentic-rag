@@ -6,14 +6,26 @@
 
 An **agentic Retrieval-Augmented Generation (RAG)** chatbot powered by [LangGraph](https://github.com/unikill066/langgraph), OpenAI’s GPT-3.5-turbo, and a Chroma vector store. It allows you to ask questions about **Nikhil Nageshwar Inturi’s** background, publications, projects, and qualifications, and get grounded answers sourced from indexed PDFs and other documents.
 
-stateDiagram-v2
-    [*] --> rag_agent
-    rag_agent --> retriever_node: tools
-    rag_agent --> [*]: direct answer
-    retriever_node --> generator: relevant docs
-    retriever_node --> rewrite: no docs found
-    generator --> [*]
-    rewrite --> rag_agent: retry with new query
+graph TD
+    Start([Start]) --> Agent[RAG Agent]
+    Agent --> Tools{Tools Needed?}
+    Tools -->|Yes| Retriever[Retriever Node]
+    Tools -->|No| End([End])
+    Retriever --> Quality{Document Quality?}
+    Quality -->|Good| Generator[Generator]
+    Quality -->|Poor| Rewrite[Rewrite Query]
+    Generator --> End
+    Rewrite --> Agent
+    
+    %% Colors
+    Start --> Agent
+    classDef startEnd fill:#ff9999
+    classDef process fill:#99ccff
+    classDef decision fill:#ffcc99
+    
+    class Start,End startEnd
+    class Agent,Retriever,Generator,Rewrite process
+    class Tools,Quality decision
 
 ## Features
 
