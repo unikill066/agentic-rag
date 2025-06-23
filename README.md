@@ -31,6 +31,13 @@ flowchart TD
     class D tool
 ```
 
+The app supports one upload at a time; progress bars updates live. More on the steps that go into the pipeline can be found here: <p align="left">
+  <a href="docs/agentic-rag_wiki.md">
+    <img src="https://img.shields.io/badge/Step–by–Step-Docs-blue?style=for-the-badge" alt="Step-by-Step Docs">
+  </a>
+</p>
+
+
 ### Difference b/w [Traditional RAG](https://nikhilrag-ntbaxj9puvp37yaqvkqsiu.streamlit.app/) & Agentic RAG
 | Feature                            | Traditional RAG                                                                                   | Agentic RAG                                                                                           |
 |------------------------------------|---------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
