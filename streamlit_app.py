@@ -7,7 +7,10 @@ Create a streamlit app for the Agentic RAG chatbot
 
 # imports
 import streamlit as st, os, sys, logging
-from langchain_core.messages import HumanMessage
+try:
+    from langchain_core.messages import HumanMessage
+except:
+    from langchain.schema import HumanMessage, BaseMessage
 from graph import app
 # logging
 logging.basicConfig(level=logging.INFO)
