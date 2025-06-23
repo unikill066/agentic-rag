@@ -26,15 +26,20 @@ from langgraph.graph import END, StateGraph, START
 from langgraph.prebuilt import ToolNode
 from langchain_openai import ChatOpenAI
 from langchain_openai import OpenAIEmbeddings
-# load environment variables
+# load environment variablesx
 load_dotenv()
 
 # logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.5)
-embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
+# validate openai api key
+openai_api_key = st.secrets["OPENAI_API_KEY"]
+if not openai_api_key:
+    st.error("OpenAI API key not found in environment variables.")
+
+llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.5, api_key=openai_api_key)
+embedding_model = OpenAIEmbeddings(model="text-embedding-3-small", api_key=openai_api_key)
 
 class AgentState(TypedDict):  # agent state across the graph execution
     messages: Annotated[Sequence[BaseMessage], add_messages]

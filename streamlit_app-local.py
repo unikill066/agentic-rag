@@ -13,11 +13,6 @@ from graph import app
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# validate openai api key
-openai_api_key = st.secrets["OPENAI_API_KEY"]
-if not openai_api_key:
-    st.error("OpenAI API key not found in environment variables.")
-
 @st.cache_resource
 def init_connection():
     """
