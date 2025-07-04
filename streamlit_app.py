@@ -17,9 +17,15 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # validate openai api key
-openai_api_key = st.secrets["OPENAI_API_KEY"]
-if not openai_api_key:
-    st.error("OpenAI API key not found in environment variables.")
+try:
+    if 'OPENAI_API_KEY' in st.secrets:
+        openai_api_key = st.secrets["OPENAI_API_KEY"]
+except:
+    if 'OPENAI_API_KEY' in os.environ:
+        openai_api_key = os.environ['OPENAI_API_KEY']
+    else:
+        st.error("OpenAI API key not found in environment variables.")
+        st.stop()
 
 @st.cache_resource
 def init_connection():
